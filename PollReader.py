@@ -97,6 +97,18 @@ class PollReader():
         return harris_avg, trump_avg
 
     def polling_history_change(self):
+        harris = self.data_dict['Harris result']
+        trump = self.data_dict['Trump result']
+
+        # First 30 polls
+        harris_early = sum(harris[:30]) / 30
+        trump_early = sum(trump[:30]) / 30
+
+        # Last 30 polls
+        harris_late = sum(harris[-30:]) / 30
+        trump_late = sum(trump[-30:]) / 30
+
+        return harris_late - harris_early, trump_late - trump_early
         """
         Calculate the change in polling averages between the earliest and latest polls.
 
