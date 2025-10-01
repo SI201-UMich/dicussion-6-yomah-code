@@ -44,29 +44,20 @@ class PollReader():
         }
 
     def build_data_dict(self):
-        """
-        Reads all of the raw data from the CSV and builds a dictionary where
-        each key is the name of a column in the CSV, and each value is a list
-        containing the data for each row under that column heading.
+    # Skip the header row (first line)
+        for line in self.raw_data[1:]:
+            separated = line.strip().split(',')
 
-        There may be a couple bugs in this that you will need to fix.
-        Remember that the first row of a CSV contains all of the column names,
-        and each value in a CSV is seperated by a comma.
-        """
+            self.data_dict['month'].append(separated[0])
+            self.data_dict['date'].append(int(separated[1]))
 
-        # iterate through each row of the data
-        for i in self.raw_data:
+        # Split "sample" column into number + type
+            sample_parts = separated[2].split()
+            self.data_dict['sample'].append(int(sample_parts[0]))
+            self.data_dict['sample type'].append(sample_parts[1])
 
-            # split up the row by column
-            seperated = i.split(' ')
-
-            # map each part of the row to the correct column
-            self.data_dict['month'].append(seperated[0])
-            self.data_dict['date'].append(int(seperated[1]))
-            self.data_dict['sample'].append(int(seperated[2]))
-            self.data_dict['sample type'].append(seperated[2])
-            self.data_dict['Harris result'].append(float(seperated[3]))
-            self.data_dict['Trump result'].append(float(seperated[4]))
+            self.data_dict['Harris result'].append(float(separated[3]))
+            self.data_dict['Trump result'].append(float(separated[4]))
 
 
     def highest_polling_candidate(self):
@@ -112,9 +103,7 @@ class PollReader():
         
 
 class TestPollReader(unittest.TestCase):
-    """
-    Test cases for the PollReader class.
-    """
+
     def setUp(self):
         self.poll_reader = PollReader('polling_data.csv')
         self.poll_reader.build_data_dict()
