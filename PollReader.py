@@ -109,18 +109,7 @@ class PollReader():
         trump_late = sum(trump[-30:]) / 30
 
         return harris_late - harris_early, trump_late - trump_early
-        """
-        Calculate the change in polling averages between the earliest and latest polls.
-
-        This method calculates the average result for each candidate in the earliest 30 polls
-        and the latest 30 polls, then returns the net change.
-
-        Returns:
-            tuple: A tuple containing the net change for Harris and Trump, in that order.
-                   Positive values indicate an increase, negative values indicate a decrease.
-        """
-        pass
-
+        
 
 class TestPollReader(unittest.TestCase):
     """
